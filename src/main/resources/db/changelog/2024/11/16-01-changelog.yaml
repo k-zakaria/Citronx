@@ -1,0 +1,263 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1731783230298-1
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_farm
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: location
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: area
+                  type: FLOAT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: DATE
+            tableName: farm
+  - changeSet:
+      id: 1731783230298-2
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_field
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: area
+                  type: FLOAT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: farm_id
+                  type: UUID
+            tableName: field
+  - changeSet:
+      id: 1731783230298-3
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_harvest
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: total_quantity
+                  type: FLOAT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: saison
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: field_id
+                  type: UUID
+            tableName: harvest
+  - changeSet:
+      id: 1731783230298-4
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_harvestdetails
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: FLOAT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: harvest_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: tree_id
+                  type: UUID
+            tableName: harvest_details
+  - changeSet:
+      id: 1731783230298-5
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_sale
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: unit_price
+                  type: DECIMAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: FLOAT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: client_name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: harvest_id
+                  type: UUID
+            tableName: sale
+  - changeSet:
+      id: 1731783230298-6
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_tree
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: planting_date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: created_at
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: field_id
+                  type: UUID
+            tableName: tree
+  - changeSet:
+      id: 1731783230298-7
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: farm_id
+            baseTableName: field
+            constraintName: FK_FIELD_ON_FARM
+            referencedColumnNames: id
+            referencedTableName: farm
+  - changeSet:
+      id: 1731783230298-8
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: harvest_id
+            baseTableName: harvest_details
+            constraintName: FK_HARVESTDETAILS_ON_HARVEST
+            referencedColumnNames: id
+            referencedTableName: harvest
+  - changeSet:
+      id: 1731783230298-9
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: tree_id
+            baseTableName: harvest_details
+            constraintName: FK_HARVESTDETAILS_ON_TREE
+            referencedColumnNames: id
+            referencedTableName: tree
+  - changeSet:
+      id: 1731783230298-10
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: field_id
+            baseTableName: harvest
+            constraintName: FK_HARVEST_ON_FIELD
+            referencedColumnNames: id
+            referencedTableName: field
+  - changeSet:
+      id: 1731783230298-11
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: harvest_id
+            baseTableName: sale
+            constraintName: FK_SALE_ON_HARVEST
+            referencedColumnNames: id
+            referencedTableName: harvest
+  - changeSet:
+      id: 1731783230298-12
+      author: Youcode (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: field_id
+            baseTableName: tree
+            constraintName: FK_TREE_ON_FIELD
+            referencedColumnNames: id
+            referencedTableName: field
+
