@@ -3,6 +3,7 @@ package com.capps.citronix.web.errors;
 
 import com.capps.citronix.web.errors.farm.FarmExisteException;
 import com.capps.citronix.web.errors.farm.FarmNotFoundException;
+import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,6 +21,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> FarmExiste(FarmExisteException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(FieldNotFoundException.class)
+    public ResponseEntity<String> handleFieldNotFound(FieldNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 
 
 }
