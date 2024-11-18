@@ -22,9 +22,38 @@ public class HarvestDetailsController {
     private final HarvestDetailsService service;
     private final HarvestDetailsMapper mapper;
 
-    @PostMapping
+    @GetMapping
+    public ResponseEntity<Page<HarvestDetailsVM>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<HarvestDetails> detailsPage = service.findAll(pageable);
+        Page<HarvestDetailsVM> vmPage = detailsPage.map(mapper::toVM);
+        return ResponseEntity.ok(vmPage);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<HarvestDetailsVM> findById(@PathVariable UUID id) {
+        HarvestDetails details = service.findById(id);
+        return ResponseEntity.ok(mapper.toVM(details));
+    }
+
+    @PostMapping("/save")
     public ResponseEntity<HarvestDetailsVM> save(@RequestBody HarvestDetailsDTO dto) {
         HarvestDetails details = service.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toVM(details));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<HarvestDetailsVM> update(@PathVariable UUID id, @RequestBody HarvestDetailsDTO dto) {
+        HarvestDetails updated = service.update(dto, id);
+        return ResponseEntity.ok(mapper.toVM(updated));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.ok("HarvestDetails deleted successfully");
     }
 }

@@ -8,13 +8,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 public interface HarvestDetailsService {
-//    Page<HarvestDetails> findAll(Pageable pageable);
-//
-//    HarvestDetails findById(UUID id);
+    Page<HarvestDetails> findAll(Pageable pageable);
+
+    HarvestDetails findById(UUID id);
 
     HarvestDetails save(HarvestDetailsDTO harvestDetailsDTO);
-//
-//    HarvestDetails update(HarvestDetailsDTO harvestDetailsDTO, UUID id);
 
-//    boolean delete(UUID id);
+    HarvestDetails update(HarvestDetailsDTO harvestDetailsDTO, UUID id);
+
+    boolean delete(UUID id);
 }
