@@ -7,6 +7,7 @@ import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
 import com.capps.citronix.web.errors.sale.SaleNotFoundException;
+import com.capps.citronix.web.errors.tree.TreeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,7 +45,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-
-
+    @ExceptionHandler(TreeNotFoundException.class)
+    public ResponseEntity<String> handleTreeNotFound(TreeNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
 }

@@ -39,19 +39,19 @@ public class SaleController {
         return ResponseEntity.ok(mapper.toVM(sale));
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<SaleVM> save(@RequestBody SaleDTO dto) {
         Sale sale = service.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toVM(sale));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<SaleVM> update(@PathVariable UUID id, @RequestBody SaleDTO dto) {
         Sale updated = service.update(dto, id);
         return ResponseEntity.ok(mapper.toVM(updated));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable UUID id) {
         service.delete(id);
         return ResponseEntity.ok("Sale deleted successfully");
