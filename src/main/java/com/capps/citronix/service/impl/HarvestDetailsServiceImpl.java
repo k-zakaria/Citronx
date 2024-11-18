@@ -1,10 +1,17 @@
 package com.capps.citronix.service.impl;
 
+import com.capps.citronix.domain.Harvest;
 import com.capps.citronix.domain.HarvestDetails;
+import com.capps.citronix.domain.Tree;
 import com.capps.citronix.repository.HarvestDetailsRepository;
+import com.capps.citronix.repository.HarvestRepository;
+import com.capps.citronix.repository.TreeRepository;
 import com.capps.citronix.service.HarvestDetailsService;
 import com.capps.citronix.service.dto.harvestdetails.HarvestDetailsDTO;
+import com.capps.citronix.web.errors.field.FieldNotFoundException;
+import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
+import com.capps.citronix.web.errors.tree.TreeNotFoundException;
 import com.capps.citronix.web.vm.mapper.HarvestDetailsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +24,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HarvestDetailsServiceImpl implements HarvestDetailsService {
     private final HarvestDetailsRepository repository;
+    private final HarvestRepository harvestRepository;
+    private final TreeRepository treeRepository;
     private final HarvestDetailsMapper mapper;
 
     @Override
@@ -32,7 +41,13 @@ public class HarvestDetailsServiceImpl implements HarvestDetailsService {
 
     @Override
     public HarvestDetails save(HarvestDetailsDTO harvestDetailsDTO) {
+        Harvest harvest = harvestRepository.findById(harvestDetailsDTO.getHarvestId())
+                .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
+        Tree tree = treeRepository.findById(harvestDetailsDTO.getTreeId())
+                .orElseThrow(() -> new TreeNotFoundException("Tree not Found !"));
         HarvestDetails harvestDetails = mapper.toEntity(harvestDetailsDTO);
+        harvestDetails.setHarvest(harvest);
+        harvestDetails.setTree(tree);
         return repository.save(harvestDetails);
     }
 
@@ -40,10 +55,13 @@ public class HarvestDetailsServiceImpl implements HarvestDetailsService {
     public HarvestDetails update(HarvestDetailsDTO harvestDetailsDTO, UUID id) {
         HarvestDetails existing = repository.findById(id)
                 .orElseThrow(() -> new HarvestDetailsNotFoundException("HarvestDetails not found!"));
-
+        Harvest harvest = harvestRepository.findById(harvestDetailsDTO.getHarvestId())
+                .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
+        Tree tree = treeRepository.findById(harvestDetailsDTO.getTreeId())
+                .orElseThrow(() -> new TreeNotFoundException("Tree not Found !"));
         existing.setQuantity(harvestDetailsDTO.getQuantity());
-        existing.getHarvest().setId(harvestDetailsDTO.getHarvestId());
-        existing.getTree().setId(harvestDetailsDTO.getTreeId());
+        existing.setHarvest(harvest);
+        existing.setTree(tree);
 
         return repository.save(existing);
     }

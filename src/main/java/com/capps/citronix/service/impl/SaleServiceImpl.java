@@ -1,9 +1,12 @@
 package com.capps.citronix.service.impl;
 
+import com.capps.citronix.domain.Harvest;
 import com.capps.citronix.domain.Sale;
+import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.repository.SaleRepository;
 import com.capps.citronix.service.SaleService;
 import com.capps.citronix.service.dto.sale.SaleDTO;
+import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.sale.SaleNotFoundException;
 import com.capps.citronix.web.vm.mapper.SaleMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SaleServiceImpl implements SaleService {
     private final SaleRepository repository;
+    private final HarvestRepository harvestRepository;
     private final SaleMapper mapper;
 
     @Override
@@ -32,7 +36,10 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sale save(SaleDTO saleDTO) {
+        Harvest harvest = harvestRepository.findById(saleDTO.getHarvestId())
+                .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
         Sale sale = mapper.toEntity(saleDTO);
+        sale.setHarvest(harvest);
         return repository.save(sale);
     }
 
@@ -40,12 +47,14 @@ public class SaleServiceImpl implements SaleService {
     public Sale update(SaleDTO saleDTO, UUID id) {
         Sale existing = repository.findById(id)
                 .orElseThrow(() -> new SaleNotFoundException("Sale not found!"));
+        Harvest harvest = harvestRepository.findById(saleDTO.getHarvestId())
+                .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
 
         existing.setDate(saleDTO.getDate());
         existing.setUnitPrice(saleDTO.getUnitPrice());
         existing.setQuantity(saleDTO.getQuantity());
         existing.setClientName(saleDTO.getClientName());
-        existing.getHarvest().setId(saleDTO.getHarvestId());
+        existing.setHarvest(harvest);
 
         return repository.save(existing);
     }
