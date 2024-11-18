@@ -6,6 +6,7 @@ import com.capps.citronix.web.errors.farm.FarmNotFoundException;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
+import com.capps.citronix.web.errors.sale.SaleNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +36,11 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(HarvestDetailsNotFoundException.class)
     public ResponseEntity<String> handleHarvestDetailsNotFound(HarvestDetailsNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SaleNotFoundException.class)
+    public ResponseEntity<String> handleSaleNotFound(SaleNotFoundException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
