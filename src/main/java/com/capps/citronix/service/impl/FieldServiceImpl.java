@@ -8,6 +8,7 @@ import com.capps.citronix.service.FieldService;
 import com.capps.citronix.service.dto.field.FieldDTO;
 import com.capps.citronix.web.errors.farm.FarmNotFoundException;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
+import com.capps.citronix.web.errors.field.MaxFieldAreaExceededException;
 import com.capps.citronix.web.vm.mapper.FieldMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,9 +39,20 @@ public class FieldServiceImpl implements FieldService {
     public Field save(FieldDTO fieldDTO) {
         Farm farm = farmRepository.findById(fieldDTO.getFarmId())
                 .orElseThrow(() -> new FarmNotFoundException("Farm not found!"));
-        Field field = fieldMapper.toFieldEntity(fieldDTO);
-        field.setFarm(farm);
+        float maxFieldArea = farm.getArea() * 0.5f; // 50% de la superficie totale de la ferme
+        if (fieldDTO.getArea() > maxFieldArea) {
+            throw new MaxFieldAreaExceededException("La superficie du champ ne peut pas dépasser 50% de la superficie totale de la ferme.");
+        }
+        
+        Field field = convertDTOToEntity(fieldDTO);
         return fieldRepository.save(field);
+    }
+
+    private Field convertDTOToEntity(FieldDTO fieldDTO) {
+        return Field.builder()
+                .area(fieldDTO.getArea())
+                .farm(farmRepository.findById(fieldDTO.getFarmId()).orElse(null))  // Associer la ferme
+                .build();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.capps.citronix.service.dto.field;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @Data
 public class FieldDTO {
+    @Min(value = 1000, message = "La superficie d'un champ doit être au minimum de 1000 m² (0.1 hectare).")
     @Positive(message = "La superficie doit être un nombre positif.")
     private float area;
 
