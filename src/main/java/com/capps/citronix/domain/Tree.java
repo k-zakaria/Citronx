@@ -27,7 +27,9 @@ public class Tree {
     @JoinColumn(name = "field_id", nullable = false)
     private Field field;
 
-    // Méthodes calculées (exemple : age et productivité annuelle)
+    @Column(name = "is_productive")
+    private boolean isProductive;
+
     public int getAge() {
         return LocalDate.now().getYear() - plantingDate.getYear();
     }

@@ -16,4 +16,6 @@ public class TreeDTO {
 
     @NotNull(message = "L'ID du champ est obligatoire.")
     private UUID fieldId;
+
+    private boolean isProductive;
 }

@@ -11,5 +11,5 @@ public class TreeVM {
     private LocalDate plantingDate;
     private LocalDate createdAt;
     private UUID fieldId;
-    private int age; // Calculé dans l'entité Tree
+    private int age;
 }
