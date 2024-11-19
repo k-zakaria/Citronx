@@ -1,5 +1,6 @@
 package com.capps.citronix.service.dto.tree;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
