@@ -5,6 +5,7 @@ import com.capps.citronix.web.errors.farm.FarmExisteException;
 import com.capps.citronix.web.errors.farm.FarmNotFoundException;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.field.MaxFieldAreaExceededException;
+import com.capps.citronix.web.errors.field.MaxFieldsExceededException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
 import com.capps.citronix.web.errors.sale.SaleNotFoundException;
@@ -34,6 +35,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MaxFieldAreaExceededException.class)
     public ResponseEntity<String> handleMaxFieldAreaExceeded(MaxFieldAreaExceededException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MaxFieldsExceededException.class)
+    public ResponseEntity<String> handleMaxFieldsExceeded(MaxFieldsExceededException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

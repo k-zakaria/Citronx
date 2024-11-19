@@ -1,5 +1,6 @@
 package com.capps.citronix.repository;
 
+import com.capps.citronix.domain.Farm;
 import com.capps.citronix.domain.Field;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Page;
@@ -9,4 +10,5 @@ import java.util.UUID;
 
 public interface FieldRepository extends JpaRepository<Field, UUID> {
     Page<Field> findAll(Pageable pageable);
+    long countByFarm(Farm farm);
 }

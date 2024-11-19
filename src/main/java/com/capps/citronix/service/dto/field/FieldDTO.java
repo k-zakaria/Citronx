@@ -9,8 +9,8 @@ import java.util.UUID;
 
 @Data
 public class FieldDTO {
-    @Min(value = 1000, message = "La superficie d'un champ doit être au minimum de 1000 m² (0.1 hectare).")
     @Positive(message = "La superficie doit être un nombre positif.")
+    @Min(value = 1000, message = "La superficie d'un champ doit être au minimum de 1000 m² (0.1 hectare).")
     private float area;
 
     @NotNull(message = "L'identifiant de la ferme est obligatoire.")
