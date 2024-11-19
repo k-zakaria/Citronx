@@ -9,6 +9,7 @@ import com.capps.citronix.web.errors.field.MaxFieldsExceededException;
 import com.capps.citronix.web.errors.harvest.HarvestAlreadyExistsException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
+import com.capps.citronix.web.errors.harvestdetails.TreeAlreadyAssociatedException;
 import com.capps.citronix.web.errors.sale.SaleNotFoundException;
 import com.capps.citronix.web.errors.tree.InvalidPlantingDateException;
 import com.capps.citronix.web.errors.tree.MaxTreeDensityExceededException;
@@ -58,6 +59,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HarvestDetailsNotFoundException.class)
     public ResponseEntity<String> handleHarvestDetailsNotFound(HarvestDetailsNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TreeAlreadyAssociatedException.class)
+    public ResponseEntity<String> handleTreeAlreadyAssociated(TreeAlreadyAssociatedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

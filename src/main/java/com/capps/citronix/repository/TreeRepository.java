@@ -1,6 +1,5 @@
 package com.capps.citronix.repository;
 
-import com.capps.citronix.domain.Farm;
 import com.capps.citronix.domain.Field;
 import com.capps.citronix.domain.Tree;
 import org.springframework.data.domain.Page;

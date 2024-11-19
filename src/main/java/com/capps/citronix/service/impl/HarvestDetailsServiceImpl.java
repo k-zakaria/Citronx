@@ -11,6 +11,7 @@ import com.capps.citronix.service.dto.harvestdetails.HarvestDetailsDTO;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
+import com.capps.citronix.web.errors.harvestdetails.TreeAlreadyAssociatedException;
 import com.capps.citronix.web.errors.tree.TreeNotFoundException;
 import com.capps.citronix.web.vm.mapper.HarvestDetailsMapper;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,15 @@ public class HarvestDetailsServiceImpl implements HarvestDetailsService {
                 .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
         Tree tree = treeRepository.findById(harvestDetailsDTO.getTreeId())
                 .orElseThrow(() -> new TreeNotFoundException("Tree not Found !"));
+
+        // Vérifier si l'arbre est déjà associé à une autre récolte pour la même saison
+        boolean exists = repository.existsByTreeAndHarvest_Saison(tree, harvest.getSaison());
+        if (exists) {
+            throw new TreeAlreadyAssociatedException("L'arbre est déjà associé à une autre récolte pour la saison " + harvest.getSaison());
+        }
+
         HarvestDetails harvestDetails = mapper.toEntity(harvestDetailsDTO);
+
         harvestDetails.setHarvest(harvest);
         harvestDetails.setTree(tree);
         return repository.save(harvestDetails);
