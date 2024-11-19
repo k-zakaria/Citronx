@@ -9,6 +9,7 @@ import com.capps.citronix.web.errors.field.MaxFieldsExceededException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
 import com.capps.citronix.web.errors.sale.SaleNotFoundException;
+import com.capps.citronix.web.errors.tree.MaxTreeDensityExceededException;
 import com.capps.citronix.web.errors.tree.TreeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +60,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TreeNotFoundException.class)
     public ResponseEntity<String> handleTreeNotFound(TreeNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(MaxTreeDensityExceededException.class)
+    public ResponseEntity<String> handleMaxTreeDensityExceeded(MaxTreeDensityExceededException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 

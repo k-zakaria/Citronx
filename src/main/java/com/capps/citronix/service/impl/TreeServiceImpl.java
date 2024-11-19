@@ -7,6 +7,7 @@ import com.capps.citronix.repository.TreeRepository;
 import com.capps.citronix.service.TreeService;
 import com.capps.citronix.service.dto.tree.TreeDTO;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
+import com.capps.citronix.web.errors.tree.MaxTreeDensityExceededException;
 import com.capps.citronix.web.errors.tree.TreeNotFoundException;
 import com.capps.citronix.web.vm.mapper.TreeMapper;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,16 @@ public class TreeServiceImpl implements TreeService {
     public Tree save(TreeDTO treeDTO) {
         Field field = fieldRepository.findById(treeDTO.getFieldId())
                 .orElseThrow(() -> new FieldNotFoundException("Field not found!"));
+
+        float maxTreeDensity = field.getArea() / 100.0f * 10; // 10 arbres par 1 000 m²
+        long currentTreeCount = repository.countByField(field); // Compter les arbres existants dans le champ
+
+        // Vérifier si l'ajout d'un nouvel arbre dépasserait la densité maximale
+        if (currentTreeCount + 1 > maxTreeDensity) {
+            throw new MaxTreeDensityExceededException("La densité maximale de " + maxTreeDensity +
+                    " arbres pour ce champ (superficie : " + field.getArea() + " m²) serait dépassée.");
+        }
+
         Tree tree = mapper.toEntity(treeDTO);
         tree.setField(field);
         return repository.save(tree);
