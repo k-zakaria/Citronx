@@ -6,6 +6,7 @@ import com.capps.citronix.repository.FieldRepository;
 import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.service.HarvestService;
 import com.capps.citronix.service.dto.harvest.HarvestDTO;
+import com.capps.citronix.web.errors.harvest.HarvestAlreadyExistsException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,11 @@ public class HarvestServiceImpl implements HarvestService {
     public Harvest save(HarvestDTO harvestDTO) {
         Field field = fieldRepository.findById(harvestDTO.getFieldId())
                 .orElseThrow(() -> new HarvestNotFoundException("Champ introuvable !"));
+        boolean exists = harvestRepository.existsByFieldAndSaison(field, harvestDTO.getSaison());
+        if (exists) {
+            throw new HarvestAlreadyExistsException("Une récolte pour ce champ existe déjà pour la saison " + harvestDTO.getSaison());
+        }
+
         Harvest harvest = Harvest.builder()
                 .date(harvestDTO.getDate())
                 .totalQuantity(harvestDTO.getTotalQuantity())

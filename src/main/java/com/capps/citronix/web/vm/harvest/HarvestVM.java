@@ -10,5 +10,5 @@ public class HarvestVM {
     private LocalDate date;
     private float totalQuantity;
     private Saison saison;
-    private String fieldName;
+    private String field;
 }
