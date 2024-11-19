@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface FieldMapper {
+    @Mapping(target = "trees", ignore = true) // Ignorer les arbres au moment du mapping
     Field toFieldEntity(FieldDTO fieldDTO);
 
     @Mapping(source = "farm.name", target = "farmName")
