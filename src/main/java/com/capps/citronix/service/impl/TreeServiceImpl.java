@@ -7,6 +7,7 @@ import com.capps.citronix.repository.TreeRepository;
 import com.capps.citronix.service.TreeService;
 import com.capps.citronix.service.dto.tree.TreeDTO;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
+import com.capps.citronix.web.errors.tree.InvalidPlantingDateException;
 import com.capps.citronix.web.errors.tree.MaxTreeDensityExceededException;
 import com.capps.citronix.web.errors.tree.TreeNotFoundException;
 import com.capps.citronix.web.vm.mapper.TreeMapper;
@@ -47,6 +48,12 @@ public class TreeServiceImpl implements TreeService {
         if (currentTreeCount + 1 > maxTreeDensity) {
             throw new MaxTreeDensityExceededException("La densité maximale de " + maxTreeDensity +
                     " arbres pour ce champ (superficie : " + field.getArea() + " m²) serait dépassée.");
+        }
+
+        // Vérification de la période de plantation (entre mars et mai)
+        LocalDate plantingDate = treeDTO.getPlantingDate();
+        if (plantingDate.getMonthValue() < 3 || plantingDate.getMonthValue() > 5) {
+            throw new InvalidPlantingDateException("Les arbres ne peuvent être plantés qu'entre mars et mai.");
         }
 
         Tree tree = mapper.toEntity(treeDTO);
