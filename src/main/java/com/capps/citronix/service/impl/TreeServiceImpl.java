@@ -76,6 +76,20 @@ public class TreeServiceImpl implements TreeService {
         Field field = fieldRepository.findById(treeDTO.getFieldId())
                 .orElseThrow(() -> new FieldNotFoundException("Field not found!"));
 
+        float maxTreeDensity = field.getArea() / 100.0f * 10;
+        long currentTreeCount = repository.countByField(field);
+
+        if (currentTreeCount + 1 > maxTreeDensity) {
+            throw new MaxTreeDensityExceededException("La densité maximale de " + maxTreeDensity +
+                    " arbres pour ce champ (superficie : " + field.getArea() + " m²) serait dépassée.");
+        }
+
+        // Vérification de la période de plantation (entre mars et mai)
+        LocalDate plantingDate = treeDTO.getPlantingDate();
+        if (plantingDate.getMonthValue() < 3 || plantingDate.getMonthValue() > 5) {
+            throw new InvalidPlantingDateException("Les arbres ne peuvent être plantés qu'entre mars et mai.");
+        }
+
         existing.setPlantingDate(treeDTO.getPlantingDate());
         existing.setCreatedAt(treeDTO.getCreatedAt());
         existing.setField(field);

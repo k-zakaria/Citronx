@@ -47,8 +47,8 @@ public class HarvestController {
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
         harvestService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Harvest deleted successfully");
     }
 }

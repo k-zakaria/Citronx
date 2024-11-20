@@ -7,6 +7,7 @@ import com.capps.citronix.repository.FieldRepository;
 import com.capps.citronix.service.FieldService;
 import com.capps.citronix.service.dto.field.FieldDTO;
 import com.capps.citronix.web.errors.farm.FarmNotFoundException;
+import com.capps.citronix.web.errors.field.AreaConsistencyException;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.field.MaxFieldAreaExceededException;
 import com.capps.citronix.web.errors.field.MaxFieldsExceededException;
@@ -41,18 +42,28 @@ public class FieldServiceImpl implements FieldService {
         Farm farm = farmRepository.findById(fieldDTO.getFarmId())
                 .orElseThrow(() -> new FarmNotFoundException("Farm not found!"));
 
+        float totalFieldArea = fieldRepository.sumAreaByFarm(farm.getId());
+
+        if (totalFieldArea + fieldDTO.getArea() >= farm.getArea()) {
+            throw new AreaConsistencyException("La somme des superficies des champs (" +
+                    (totalFieldArea + fieldDTO.getArea()) + " m²) dépasse ou est égale à la superficie de la ferme (" +
+                    farm.getArea() + " m²).");
+        }
+
         float maxFieldArea = farm.getArea() * 0.5f;
+
         if (fieldDTO.getArea() > maxFieldArea) {
             throw new MaxFieldAreaExceededException("La superficie du champ ne peut pas dépasser 50% de la superficie totale de la ferme.");
         }
 
-        long fieldCount = fieldRepository.countByFarm(farm); // Vérification du nombre maximal de champs
+        long fieldCount = fieldRepository.countByFarm(farm);
+
         if (fieldCount >= 10) {
             throw new MaxFieldsExceededException("La ferme a déjà atteint le nombre maximal de 10 champs.");
         }
 
-        Field field = fieldMapper.toFieldEntity(fieldDTO); // Mapper le DTO à l'entité
-        field.setFarm(farm); // Associer la ferme
+        Field field = fieldMapper.toFieldEntity(fieldDTO);
+        field.setFarm(farm);
 
         return fieldRepository.save(field);
     }
@@ -64,15 +75,15 @@ public class FieldServiceImpl implements FieldService {
         Farm farm = farmRepository.findById(fieldDTO.getFarmId())
                 .orElseThrow(() -> new FarmNotFoundException("Farm not found!"));
 
-        float maxFieldArea = farm.getArea() * 0.5f;
-        if (fieldDTO.getArea() > maxFieldArea) {
-            throw new MaxFieldAreaExceededException("La superficie du champ ne peut pas dépasser 50% de la superficie totale de la ferme.");
-        }
-
-        long fieldCount = fieldRepository.countByFarm(farm); // Vérification du nombre maximal de champs
-        if (fieldCount >= 10) {
-            throw new MaxFieldsExceededException("La ferme a déjà atteint le nombre maximal de 10 champs.");
-        }
+//        float maxFieldArea = farm.getArea() * 0.5f;
+//        if (fieldDTO.getArea() > maxFieldArea) {
+//            throw new MaxFieldAreaExceededException("La superficie du champ ne peut pas dépasser 50% de la superficie totale de la ferme.");
+//        }
+//
+//        long fieldCount = fieldRepository.countByFarm(farm); // Vérification du nombre maximal de champs
+//        if (fieldCount >= 10) {
+//            throw new MaxFieldsExceededException("La ferme a déjà atteint le nombre maximal de 10 champs.");
+//        }
 
         existingField.setArea(fieldDTO.getArea());
         existingField.setFarm(farm);

@@ -67,9 +67,8 @@ public class HarvestServiceImpl implements HarvestService {
 
     @Override
     public void delete(UUID id) {
-        if (!harvestRepository.existsById(id)) {
-            throw new HarvestNotFoundException("Récolte introuvable !");
-        }
-        harvestRepository.deleteById(id);
+        Harvest existing = harvestRepository.findById(id)
+                        .orElseThrow(() -> new HarvestNotFoundException("Haverst not found!"));
+        harvestRepository.delete(existing);
     }
 }

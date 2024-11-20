@@ -12,7 +12,7 @@ public interface FieldMapper {
     Field toFieldEntity(FieldDTO fieldDTO);
 
     @Mapping(source = "farm.name", target = "farmName")
-    @Mapping(expression = "java(field.getTrees().size())", target = "numberOfTrees")
+    @Mapping(expression = "java(field.getTrees() != null ? field.getTrees().size() : 0)", target = "numberOfTrees")
     @Mapping(expression = "java(field.getHarvest() != null)", target = "hasHarvest")
     FieldVM toVM(Field field);
 }

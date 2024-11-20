@@ -3,6 +3,7 @@ package com.capps.citronix.web.errors;
 
 import com.capps.citronix.web.errors.farm.FarmExisteException;
 import com.capps.citronix.web.errors.farm.FarmNotFoundException;
+import com.capps.citronix.web.errors.field.AreaConsistencyException;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.field.MaxFieldAreaExceededException;
 import com.capps.citronix.web.errors.field.MaxFieldsExceededException;
@@ -19,8 +20,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException exception) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", exception.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 
     @ExceptionHandler(FarmNotFoundException.class)
     public ResponseEntity<String> FarmNotFound(FarmNotFoundException ex){
@@ -44,6 +55,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MaxFieldsExceededException.class)
     public ResponseEntity<String> handleMaxFieldsExceeded(MaxFieldsExceededException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AreaConsistencyException.class)
+    public ResponseEntity<String> handleAreaConsistency(AreaConsistencyException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
