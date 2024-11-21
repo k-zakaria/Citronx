@@ -2,7 +2,6 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Tree;
 import com.capps.citronix.service.TreeService;
-import com.capps.citronix.service.dto.tree.TreeDTO;
 import com.capps.citronix.web.vm.mapper.TreeMapper;
 import com.capps.citronix.web.vm.request.TreeRequestVM;
 import com.capps.citronix.web.vm.tree.TreeVM;

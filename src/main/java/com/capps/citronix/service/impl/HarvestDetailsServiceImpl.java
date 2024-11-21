@@ -7,13 +7,10 @@ import com.capps.citronix.repository.HarvestDetailsRepository;
 import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.repository.TreeRepository;
 import com.capps.citronix.service.HarvestDetailsService;
-import com.capps.citronix.service.dto.harvestdetails.HarvestDetailsDTO;
-import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.TreeAlreadyAssociatedException;
 import com.capps.citronix.web.errors.tree.TreeNotFoundException;
-import com.capps.citronix.web.vm.mapper.HarvestDetailsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +24,6 @@ public class HarvestDetailsServiceImpl implements HarvestDetailsService {
     private final HarvestDetailsRepository repository;
     private final HarvestRepository harvestRepository;
     private final TreeRepository treeRepository;
-    private final HarvestDetailsMapper mapper;
 
     @Override
     public Page<HarvestDetails> findAll(Pageable pageable) {

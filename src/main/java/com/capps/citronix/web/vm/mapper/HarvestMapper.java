@@ -1,7 +1,6 @@
 package com.capps.citronix.web.vm.mapper;
 
 import com.capps.citronix.domain.Harvest;
-import com.capps.citronix.service.dto.harvest.HarvestDTO;
 import com.capps.citronix.web.vm.harvest.HarvestVM;
 import com.capps.citronix.web.vm.request.HarvestRequestVM;
 import org.mapstruct.Mapper;

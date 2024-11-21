@@ -2,7 +2,6 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.HarvestDetails;
 import com.capps.citronix.service.HarvestDetailsService;
-import com.capps.citronix.service.dto.harvestdetails.HarvestDetailsDTO;
 import com.capps.citronix.web.vm.harvestdetails.HarvestDetailsVM;
 import com.capps.citronix.web.vm.mapper.HarvestDetailsMapper;
 import com.capps.citronix.web.vm.request.HarvestDetailsRequestVM;

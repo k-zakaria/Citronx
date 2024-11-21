@@ -10,7 +10,6 @@ import com.capps.citronix.web.errors.field.AreaConsistencyException;
 import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.field.MaxFieldAreaExceededException;
 import com.capps.citronix.web.errors.field.MaxFieldsExceededException;
-import com.capps.citronix.web.vm.mapper.FieldMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,6 @@ import java.util.UUID;
 public class FieldServiceImpl implements FieldService {
     private final FieldRepository fieldRepository;
     private final FarmRepository farmRepository;
-    private final FieldMapper fieldMapper;
 
     @Override
     public Page<Field> findAll(Pageable pageable) {

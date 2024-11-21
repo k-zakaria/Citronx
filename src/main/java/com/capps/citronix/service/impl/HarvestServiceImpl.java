@@ -5,7 +5,6 @@ import com.capps.citronix.domain.Harvest;
 import com.capps.citronix.repository.FieldRepository;
 import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.service.HarvestService;
-import com.capps.citronix.service.dto.harvest.HarvestDTO;
 import com.capps.citronix.web.errors.harvest.HarvestAlreadyExistsException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import lombok.RequiredArgsConstructor;

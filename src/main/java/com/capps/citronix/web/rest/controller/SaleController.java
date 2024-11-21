@@ -2,7 +2,6 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Sale;
 import com.capps.citronix.service.SaleService;
-import com.capps.citronix.service.dto.sale.SaleDTO;
 import com.capps.citronix.web.vm.mapper.SaleMapper;
 import com.capps.citronix.web.vm.request.SaleRequestVM;
 import com.capps.citronix.web.vm.sale.SaleVM;

@@ -2,7 +2,6 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Field;
 import com.capps.citronix.service.FieldService;
-import com.capps.citronix.service.dto.field.FieldDTO;
 import com.capps.citronix.web.response.ResponseHandler;
 import com.capps.citronix.web.vm.field.FieldVM;
 import com.capps.citronix.web.vm.mapper.FieldMapper;

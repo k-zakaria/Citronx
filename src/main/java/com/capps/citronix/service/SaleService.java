@@ -1,7 +1,6 @@
 package com.capps.citronix.service;
 
 import com.capps.citronix.domain.Sale;
-import com.capps.citronix.service.dto.sale.SaleDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

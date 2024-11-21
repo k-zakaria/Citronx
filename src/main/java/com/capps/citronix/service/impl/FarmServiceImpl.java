@@ -3,13 +3,10 @@ package com.capps.citronix.service.impl;
 import com.capps.citronix.domain.Farm;
 import com.capps.citronix.repository.FarmRepository;
 import com.capps.citronix.service.FarmService;
-import com.capps.citronix.service.dto.farm.FarmDTO;
 import com.capps.citronix.web.errors.farm.FarmExisteException;
 import com.capps.citronix.web.errors.farm.FarmNotFoundException;
-import com.capps.citronix.web.vm.mapper.FarmMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +17,6 @@ import java.util.UUID;
 public class FarmServiceImpl implements FarmService {
 
     private final FarmRepository farmRepository;
-    private final FarmMapper farmMapper;
 
     @Override
     public Page<Farm> findAll(Pageable pageable) {
@@ -35,7 +31,7 @@ public class FarmServiceImpl implements FarmService {
 
     @Override
     public Farm save(Farm farm) {
-        if (farm == null || farm.equals(new FarmDTO())){
+        if (farm == null || farm.equals(new Farm())){
             throw new FarmNotFoundException("Farm not found!");
         }
         if (farmRepository.existsByNameAndLocation(farm.getName(), farm.getLocation())) {

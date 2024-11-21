@@ -2,7 +2,6 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Farm;
 import com.capps.citronix.service.FarmService;
-import com.capps.citronix.service.dto.farm.FarmDTO;
 import com.capps.citronix.web.response.ResponseHandler;
 import com.capps.citronix.web.vm.farm.FarmVM;
 import com.capps.citronix.web.vm.mapper.FarmMapper;

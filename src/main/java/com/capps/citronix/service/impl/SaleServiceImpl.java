@@ -5,10 +5,8 @@ import com.capps.citronix.domain.Sale;
 import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.repository.SaleRepository;
 import com.capps.citronix.service.SaleService;
-import com.capps.citronix.service.dto.sale.SaleDTO;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.sale.SaleNotFoundException;
-import com.capps.citronix.web.vm.mapper.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +21,7 @@ import java.util.UUID;
 public class SaleServiceImpl implements SaleService {
     private final SaleRepository repository;
     private final HarvestRepository harvestRepository;
-    private final SaleMapper mapper;
+
 
     @Override
     public Page<Sale> findAll(Pageable pageable) {
