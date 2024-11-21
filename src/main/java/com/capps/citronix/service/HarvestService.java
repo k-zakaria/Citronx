@@ -11,9 +11,9 @@ public interface HarvestService {
 
     Harvest findById(UUID id);
 
-    Harvest save(HarvestDTO harvestDTO);
+    Harvest save(Harvest harvest);
 
-    Harvest update(UUID id, HarvestDTO harvestDTO);
+    Harvest update(UUID id, Harvest harvest);
 
     void delete(UUID id);
 }

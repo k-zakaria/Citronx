@@ -38,8 +38,8 @@ public class TreeServiceImpl implements TreeService {
     }
 
     @Override
-    public Tree save(TreeDTO treeDTO) {
-        Field field = fieldRepository.findById(treeDTO.getFieldId())
+    public Tree save(Tree tree) {
+        Field field = fieldRepository.findById(tree.getField().getId())
                 .orElseThrow(() -> new FieldNotFoundException("Field not found!"));
 
         float maxTreeDensity = field.getArea() / 100.0f * 10;
@@ -51,12 +51,11 @@ public class TreeServiceImpl implements TreeService {
         }
 
         // Vérification de la période de plantation (entre mars et mai)
-        LocalDate plantingDate = treeDTO.getPlantingDate();
+        LocalDate plantingDate = tree.getPlantingDate();
         if (plantingDate.getMonthValue() < 3 || plantingDate.getMonthValue() > 5) {
             throw new InvalidPlantingDateException("Les arbres ne peuvent être plantés qu'entre mars et mai.");
         }
 
-        Tree tree = mapper.toEntity(treeDTO);
         tree.setField(field);
 
         int treeAge = LocalDate.now().getYear() - tree.getPlantingDate().getYear();
@@ -69,27 +68,11 @@ public class TreeServiceImpl implements TreeService {
         return repository.save(tree);
     }
 
-    public float calculateAnnualProductivity(Tree tree) {
-        int age = calculateAge(tree);
-        if (age < 3) {
-            return 2.5f * 2;
-        } else if (age <= 10) {
-            return 12f * 2;
-        } else {
-            return 20f * 2;
-        }
-    }
-
-    public int calculateAge(Tree tree) {
-        return java.time.LocalDate.now().getYear() - tree.getPlantingDate().getYear();
-    }
-
-
     @Override
-    public Tree update(TreeDTO treeDTO, UUID id) {
+    public Tree update(Tree tree, UUID id) {
         Tree existing = repository.findById(id)
                 .orElseThrow(() -> new TreeNotFoundException("Tree not found!"));
-        Field field = fieldRepository.findById(treeDTO.getFieldId())
+        Field field = fieldRepository.findById(tree.getField().getId())
                 .orElseThrow(() -> new FieldNotFoundException("Field not found!"));
 
         float maxTreeDensity = field.getArea() / 100.0f * 10;
@@ -101,13 +84,13 @@ public class TreeServiceImpl implements TreeService {
         }
 
         // Vérification de la période de plantation (entre mars et mai)
-        LocalDate plantingDate = treeDTO.getPlantingDate();
+        LocalDate plantingDate = tree.getPlantingDate();
         if (plantingDate.getMonthValue() < 3 || plantingDate.getMonthValue() > 5) {
             throw new InvalidPlantingDateException("Les arbres ne peuvent être plantés qu'entre mars et mai.");
         }
 
-        existing.setPlantingDate(treeDTO.getPlantingDate());
-        existing.setCreatedAt(treeDTO.getCreatedAt());
+        existing.setPlantingDate(tree.getPlantingDate());
+        existing.setCreatedAt(tree.getCreatedAt());
         existing.setField(field);
 
         return repository.save(existing);

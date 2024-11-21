@@ -1,8 +1,10 @@
 package com.capps.citronix.web.vm.request;
 
+import com.capps.citronix.domain.Farm;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import org.mapstruct.Mapping;
 
 import java.util.UUID;
 

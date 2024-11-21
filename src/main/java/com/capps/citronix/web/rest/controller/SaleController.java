@@ -42,15 +42,13 @@ public class SaleController {
 
     @PostMapping("/save")
     public ResponseEntity<SaleVM> save(@RequestBody SaleRequestVM saleRequestVM) {
-        SaleDTO saleDTO = mapper.toDTO(saleRequestVM);
-        Sale sale = service.save(saleDTO);
+        Sale sale = service.save(mapper.toEntity(saleRequestVM));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toVM(sale));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<SaleVM> update(@PathVariable UUID id, @RequestBody SaleRequestVM saleRequestVM) {
-        SaleDTO saleDTO = mapper.toDTO(saleRequestVM);
-        Sale updated = service.update(saleDTO, id);
+        Sale updated = service.update(mapper.toEntity(saleRequestVM), id);
         return ResponseEntity.ok(mapper.toVM(updated));
     }
 

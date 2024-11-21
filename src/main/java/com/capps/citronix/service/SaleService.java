@@ -12,9 +12,9 @@ public interface SaleService {
 
     Sale findById(UUID id);
 
-    Sale save(SaleDTO saleDTO);
+    Sale save(Sale sale);
 
-    Sale update(SaleDTO saleDTO, UUID id);
+    Sale update(Sale sale, UUID id);
 
     boolean delete(UUID id);
 }

@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.UUID;
 
 @RestController
@@ -45,16 +46,14 @@ public class FieldController {
 
     @PostMapping("/save")
     public ResponseEntity<FieldVM> save(@RequestBody @Valid FieldRequestVM fieldRequestVM) {
-        FieldDTO fieldDTO = fieldMapper.toDTO(fieldRequestVM);
-        Field field = fieldService.save(fieldDTO);
+        Field field = fieldService.save(fieldMapper.toFieldEntity(fieldRequestVM));
         FieldVM fieldVM = fieldMapper.toVM(field);
         return ResponseEntity.status(HttpStatus.CREATED).body(fieldVM);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<FieldVM> update(@PathVariable UUID id, @RequestBody @Valid FieldRequestVM fieldRequestVM) {
-        FieldDTO fieldDTO = fieldMapper.toDTO(fieldRequestVM);
-        Field field = fieldService.update(fieldDTO, id);
+        Field field = fieldService.update(fieldMapper.toFieldEntity(fieldRequestVM), id);
         FieldVM fieldVM = fieldMapper.toVM(field);
         return ResponseEntity.ok(fieldVM);
     }

@@ -37,15 +37,14 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public Sale save(SaleDTO saleDTO) {
+    public Sale save(Sale sale) {
 
-        Harvest harvest = harvestRepository.findById(saleDTO.getHarvestId())
+        Harvest harvest = harvestRepository.findById(sale.getHarvest().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
 
-        BigDecimal revenue = saleDTO.getUnitPrice()
+        BigDecimal revenue = sale.getUnitPrice()
                 .multiply(BigDecimal.valueOf(harvest.getTotalQuantity()));
 
-        Sale sale = mapper.toEntity(saleDTO);
         sale.setQuantity(revenue);
         sale.setDate(LocalDate.now());
         sale.setHarvest(harvest);
@@ -55,19 +54,19 @@ public class SaleServiceImpl implements SaleService {
 
 
     @Override
-    public Sale update(SaleDTO saleDTO, UUID id) {
+    public Sale update(Sale sale, UUID id) {
         Sale existing = repository.findById(id)
                 .orElseThrow(() -> new SaleNotFoundException("Sale not found!"));
-        Harvest harvest = harvestRepository.findById(saleDTO.getHarvestId())
+        Harvest harvest = harvestRepository.findById(sale.getHarvest().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
-        BigDecimal revenue = saleDTO.getUnitPrice()
+        BigDecimal revenue = sale.getUnitPrice()
                 .multiply(BigDecimal.valueOf(harvest.getTotalQuantity()));
 
 
-        existing.setDate(saleDTO.getDate());
-        existing.setUnitPrice(saleDTO.getUnitPrice());
+        existing.setDate(sale.getDate());
+        existing.setUnitPrice(sale.getUnitPrice());
         existing.setQuantity(revenue);
-        existing.setClientName(saleDTO.getClientName());
+        existing.setClientName(sale.getClientName());
         existing.setHarvest(harvest);
 
         return repository.save(existing);

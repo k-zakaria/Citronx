@@ -12,9 +12,9 @@ public interface TreeService {
 
     Tree findById(UUID id);
 
-    Tree save(TreeDTO treeDTO);
+    Tree save(Tree tree);
 
-    Tree update(TreeDTO treeDTO, UUID id);
+    Tree update(Tree tree, UUID id);
 
     boolean delete(UUID id);
 }

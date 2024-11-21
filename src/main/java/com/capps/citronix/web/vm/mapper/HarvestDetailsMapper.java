@@ -16,7 +16,7 @@ public interface HarvestDetailsMapper {
 
     @Mapping(source = "harvestId", target = "harvest.id")
     @Mapping(source = "treeId", target = "tree.id")
-    HarvestDetails toEntity(HarvestDetailsDTO harvestDetailsDTO);
+    HarvestDetails toEntity(HarvestDetailsRequestVM harvestDetailsRequestVM);
 
     HarvestDetailsDTO toDTO(HarvestDetailsRequestVM harvestDetailsRequestVM);
 }

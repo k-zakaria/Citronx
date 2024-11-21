@@ -15,5 +15,5 @@ public interface TreeMapper {
     TreeDTO toDTO(TreeRequestVM treeRequestVM);
 
     @Mapping(source = "fieldId", target = "field.id")
-    Tree toEntity(TreeDTO treeDTO);
+    Tree toEntity(TreeRequestVM treeRequestVM);
 }

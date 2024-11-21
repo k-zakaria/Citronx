@@ -10,9 +10,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface FieldMapper {
     @Mapping(target = "trees", ignore = true) // Ignorer les arbres au moment du mapping
-    Field toFieldEntity(FieldDTO fieldDTO);
+    @Mapping(source = "farmId", target = "farm.id")
+    Field toFieldEntity(FieldRequestVM fieldRequestVM);
 
-    FieldDTO toDTO(FieldRequestVM fieldRequestVM);
 
     @Mapping(source = "farm.name", target = "farmName")
     @Mapping(expression = "java(field.getTrees() != null ? field.getTrees().size() : 0)", target = "numberOfTrees")

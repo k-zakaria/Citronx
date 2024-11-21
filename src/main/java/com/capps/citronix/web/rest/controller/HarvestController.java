@@ -38,15 +38,13 @@ public class HarvestController {
 
     @PostMapping("/save")
     public ResponseEntity<HarvestVM> create(@RequestBody HarvestRequestVM harvestRequestVM) {
-        HarvestDTO harvestDTO = harvestMapper.toDTO(harvestRequestVM);
-        Harvest harvest = harvestService.save(harvestDTO);
+        Harvest harvest = harvestService.save(harvestMapper.toEntity(harvestRequestVM));
         return ResponseEntity.ok(harvestMapper.toVM(harvest));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<HarvestVM> update(@PathVariable UUID id, @RequestBody @Valid HarvestRequestVM harvestRequestVM) {
-        HarvestDTO harvestDTO = harvestMapper.toDTO(harvestRequestVM);
-        Harvest harvest = harvestService.update(id, harvestDTO);
+        Harvest harvest = harvestService.update(id, harvestMapper.toEntity(harvestRequestVM));
         return ResponseEntity.ok(harvestMapper.toVM(harvest));
     }
 

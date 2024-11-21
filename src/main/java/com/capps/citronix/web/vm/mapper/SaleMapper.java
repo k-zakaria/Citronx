@@ -14,5 +14,5 @@ public interface SaleMapper {
 
     SaleDTO toDTO(SaleRequestVM saleRequestVM);
     @Mapping(source = "harvestId", target = "harvest.id")
-    Sale toEntity(SaleDTO saleDTO);
+    Sale toEntity(SaleRequestVM saleRequestVM);
 }

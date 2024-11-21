@@ -9,9 +9,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface HarvestMapper {
-    Harvest toEntity(HarvestDTO harvestDTO);
 
-    HarvestDTO toDTO(HarvestRequestVM harvestRequestVM);
+    @Mapping(source = "fieldId", target = "field.id")
+    Harvest toEntity(HarvestRequestVM harvestRequestVM);
 
     @Mapping(expression = "java(harvest.getField() != null ? harvest.getField().getId().toString() : null)", target = "field")
     HarvestVM toVM(Harvest harvest);

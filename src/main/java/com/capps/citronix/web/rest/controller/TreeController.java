@@ -43,15 +43,13 @@ public class TreeController {
 
     @PostMapping("/save")
     public ResponseEntity<TreeVM> save(@RequestBody @Valid TreeRequestVM treeRequestVM) {
-        TreeDTO treeDTO = mapper.toDTO(treeRequestVM);
-        Tree tree = service.save(treeDTO);
+        Tree tree = service.save(mapper.toEntity(treeRequestVM));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toVM(tree));
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<TreeVM> update(@PathVariable UUID id, @RequestBody @Valid TreeRequestVM treeRequestVM) {
-        TreeDTO treeDTO = mapper.toDTO(treeRequestVM);
-        Tree updated = service.update(treeDTO, id);
+        Tree updated = service.update(mapper.toEntity(treeRequestVM), id);
         return ResponseEntity.ok(mapper.toVM(updated));
     }
 
