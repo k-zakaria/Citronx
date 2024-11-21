@@ -8,7 +8,6 @@ import java.util.UUID;
 
 @Data
 public class SaleVM {
-    private UUID id;
     private LocalDate date;
     private BigDecimal unitPrice;
     private float quantity;

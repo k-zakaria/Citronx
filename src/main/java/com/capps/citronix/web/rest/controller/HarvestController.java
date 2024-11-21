@@ -5,6 +5,8 @@ import com.capps.citronix.service.HarvestService;
 import com.capps.citronix.service.dto.harvest.HarvestDTO;
 import com.capps.citronix.web.vm.harvest.HarvestVM;
 import com.capps.citronix.web.vm.mapper.HarvestMapper;
+import com.capps.citronix.web.vm.request.HarvestRequestVM;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +37,15 @@ public class HarvestController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<HarvestVM> create(@RequestBody HarvestDTO harvestDTO) {
+    public ResponseEntity<HarvestVM> create(@RequestBody HarvestRequestVM harvestRequestVM) {
+        HarvestDTO harvestDTO = harvestMapper.toDTO(harvestRequestVM);
         Harvest harvest = harvestService.save(harvestDTO);
         return ResponseEntity.ok(harvestMapper.toVM(harvest));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HarvestVM> update(@PathVariable UUID id, @RequestBody HarvestDTO harvestDTO) {
+    public ResponseEntity<HarvestVM> update(@PathVariable UUID id, @RequestBody @Valid HarvestRequestVM harvestRequestVM) {
+        HarvestDTO harvestDTO = harvestMapper.toDTO(harvestRequestVM);
         Harvest harvest = harvestService.update(id, harvestDTO);
         return ResponseEntity.ok(harvestMapper.toVM(harvest));
     }

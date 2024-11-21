@@ -34,25 +34,24 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public Farm save(FarmDTO farmDTO) {
-        if (farmDTO == null || farmDTO.equals(new FarmDTO())){
+    public Farm save(Farm farm) {
+        if (farm == null || farm.equals(new FarmDTO())){
             throw new FarmNotFoundException("Farm not found!");
         }
-        if (farmRepository.existsByNameAndLocation(farmDTO.getName(), farmDTO.getLocation())) {
+        if (farmRepository.existsByNameAndLocation(farm.getName(), farm.getLocation())) {
             throw new FarmExisteException("La ferme avec ce nom et cette localisation existe déjà.");
         }
-        Farm farm = farmMapper.toFarmEntity(farmDTO);
         return farmRepository.save(farm);
     }
 
     @Override
-    public Farm update(FarmDTO farmDTO, UUID id) {
+    public Farm update(Farm farm, UUID id) {
         Farm existingFarm = farmRepository.findById(id)
                 .orElseThrow(() -> new FarmNotFoundException("Farm not found!"));
-        existingFarm.setName(farmDTO.getName());
-        existingFarm.setLocation(farmDTO.getLocation());
-        existingFarm.setArea(farmDTO.getArea());
-        existingFarm.setCreatedAt(farmDTO.getCreatedAt());
+        existingFarm.setName(farm.getName());
+        existingFarm.setLocation(farm.getLocation());
+        existingFarm.setArea(farm.getArea());
+        existingFarm.setCreatedAt(farm.getCreatedAt());
 
         return farmRepository.save(existingFarm);
     }

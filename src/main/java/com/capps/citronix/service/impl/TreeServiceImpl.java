@@ -69,6 +69,22 @@ public class TreeServiceImpl implements TreeService {
         return repository.save(tree);
     }
 
+    public float calculateAnnualProductivity(Tree tree) {
+        int age = calculateAge(tree);
+        if (age < 3) {
+            return 2.5f * 2;
+        } else if (age <= 10) {
+            return 12f * 2;
+        } else {
+            return 20f * 2;
+        }
+    }
+
+    public int calculateAge(Tree tree) {
+        return java.time.LocalDate.now().getYear() - tree.getPlantingDate().getYear();
+    }
+
+
     @Override
     public Tree update(TreeDTO treeDTO, UUID id) {
         Tree existing = repository.findById(id)

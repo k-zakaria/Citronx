@@ -12,9 +12,9 @@ public interface FarmService {
 
     Farm findById(UUID id);
 
-    Farm save(FarmDTO farmDTO);
+    Farm save(Farm farm);
 
-    Farm update(FarmDTO farmDTO, UUID id);
+    Farm update(Farm farm, UUID id);
 
     boolean delete(UUID id);
 }
