@@ -26,12 +26,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException exception) {
-        Map<String, String> error = new HashMap<>();
-        error.put("error", exception.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
-    }
 
     @ExceptionHandler(FarmNotFoundException.class)
     public ResponseEntity<String> FarmNotFound(FarmNotFoundException ex){

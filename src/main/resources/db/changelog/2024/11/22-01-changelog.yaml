@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1731783230298-1
+      id: 1732272235432-1
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -35,7 +35,7 @@ databaseChangeLog:
                   type: DATE
             tableName: farm
   - changeSet:
-      id: 1731783230298-2
+      id: 1732272235432-2
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -60,7 +60,7 @@ databaseChangeLog:
                   type: UUID
             tableName: field
   - changeSet:
-      id: 1731783230298-3
+      id: 1732272235432-3
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -95,7 +95,7 @@ databaseChangeLog:
                   type: UUID
             tableName: harvest
   - changeSet:
-      id: 1731783230298-4
+      id: 1732272235432-4
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -125,7 +125,7 @@ databaseChangeLog:
                   type: UUID
             tableName: harvest_details
   - changeSet:
-      id: 1731783230298-5
+      id: 1732272235432-5
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -152,7 +152,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                   name: quantity
-                  type: FLOAT
+                  type: DECIMAL
               - column:
                   constraints:
                     nullable: false
@@ -165,7 +165,7 @@ databaseChangeLog:
                   type: UUID
             tableName: sale
   - changeSet:
-      id: 1731783230298-6
+      id: 1732272235432-6
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -193,9 +193,12 @@ databaseChangeLog:
                     nullable: false
                   name: field_id
                   type: UUID
+              - column:
+                  name: is_productive
+                  type: BOOLEAN
             tableName: tree
   - changeSet:
-      id: 1731783230298-7
+      id: 1732272235432-7
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -206,7 +209,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: farm
   - changeSet:
-      id: 1731783230298-8
+      id: 1732272235432-8
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -217,7 +220,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: harvest
   - changeSet:
-      id: 1731783230298-9
+      id: 1732272235432-9
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -228,7 +231,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: tree
   - changeSet:
-      id: 1731783230298-10
+      id: 1732272235432-10
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -239,7 +242,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: field
   - changeSet:
-      id: 1731783230298-11
+      id: 1732272235432-11
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -250,7 +253,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: harvest
   - changeSet:
-      id: 1731783230298-12
+      id: 1732272235432-12
       author: Youcode (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
