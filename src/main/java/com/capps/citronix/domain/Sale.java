@@ -25,7 +25,7 @@ public class Sale {
     private BigDecimal unitPrice;
 
     @Column(nullable = false)
-    private float quantity;
+    private BigDecimal quantity;
 
     @Column(name = "client_name", nullable = false)
     private String clientName;
