@@ -1,7 +1,6 @@
 package com.capps.citronix.service;
 
 import com.capps.citronix.domain.Sale;
-import com.capps.citronix.service.dto.sale.SaleDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,9 +11,9 @@ public interface SaleService {
 
     Sale findById(UUID id);
 
-    Sale save(SaleDTO saleDTO);
+    Sale save(Sale sale);
 
-    Sale update(SaleDTO saleDTO, UUID id);
+    Sale update(Sale sale, UUID id);
 
     boolean delete(UUID id);
 }

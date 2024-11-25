@@ -1,4 +1,4 @@
-package com.capps.citronix.service.dto.harvestdetails;
+package com.capps.citronix.web.vm.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.UUID;
 
 @Data
-public class HarvestDetailsDTO {
+public class HarvestDetailsRequestVM {
     @NotNull(message = "La quantité est obligatoire.")
     private float quantity;
 

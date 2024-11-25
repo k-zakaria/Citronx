@@ -1,13 +1,14 @@
-package com.capps.citronix.service.dto.farm;
+package com.capps.citronix.web.vm.request;
 
 import jakarta.validation.constraints.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
-public class FarmDTO {
+public class FarmRequestVM {
     @NotBlank(message = "Le nom de la ferme est obligatoire.")
     @Size(min = 3, max = 100, message = "Le nom de la ferme doit contenir entre 3 et 100 caractères.")
     private String name;

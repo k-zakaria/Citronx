@@ -9,6 +9,5 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public interface HarvestRepository extends JpaRepository<Harvest, UUID> {
-    boolean existsByDateAndFieldId(LocalDate date, UUID fieldId);
     boolean existsByFieldAndSaison(Field field, Saison saison);
 }

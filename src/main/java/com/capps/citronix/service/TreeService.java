@@ -1,7 +1,6 @@
 package com.capps.citronix.service;
 
 import com.capps.citronix.domain.Tree;
-import com.capps.citronix.service.dto.tree.TreeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,9 +11,9 @@ public interface TreeService {
 
     Tree findById(UUID id);
 
-    Tree save(TreeDTO treeDTO);
+    Tree save(Tree tree);
 
-    Tree update(TreeDTO treeDTO, UUID id);
+    Tree update(Tree tree, UUID id);
 
     boolean delete(UUID id);
 }

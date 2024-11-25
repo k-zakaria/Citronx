@@ -1,6 +1,5 @@
-package com.capps.citronix.service.dto.tree;
+package com.capps.citronix.web.vm.request;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-public class TreeDTO {
+public class TreeRequestVM {
     @NotNull(message = "La date de plantation est obligatoire.")
     private LocalDate plantingDate;
 

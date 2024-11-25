@@ -2,9 +2,10 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Harvest;
 import com.capps.citronix.service.HarvestService;
-import com.capps.citronix.service.dto.harvest.HarvestDTO;
 import com.capps.citronix.web.vm.harvest.HarvestVM;
 import com.capps.citronix.web.vm.mapper.HarvestMapper;
+import com.capps.citronix.web.vm.request.HarvestRequestVM;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,20 +36,20 @@ public class HarvestController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<HarvestVM> create(@RequestBody HarvestDTO harvestDTO) {
-        Harvest harvest = harvestService.save(harvestDTO);
+    public ResponseEntity<HarvestVM> create(@RequestBody HarvestRequestVM harvestRequestVM) {
+        Harvest harvest = harvestService.save(harvestMapper.toEntity(harvestRequestVM));
         return ResponseEntity.ok(harvestMapper.toVM(harvest));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HarvestVM> update(@PathVariable UUID id, @RequestBody HarvestDTO harvestDTO) {
-        Harvest harvest = harvestService.update(id, harvestDTO);
+    public ResponseEntity<HarvestVM> update(@PathVariable UUID id, @RequestBody @Valid HarvestRequestVM harvestRequestVM) {
+        Harvest harvest = harvestService.update(id, harvestMapper.toEntity(harvestRequestVM));
         return ResponseEntity.ok(harvestMapper.toVM(harvest));
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
         harvestService.delete(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Harvest deleted successfully");
     }
 }

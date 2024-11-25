@@ -7,13 +7,10 @@ import com.capps.citronix.repository.HarvestDetailsRepository;
 import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.repository.TreeRepository;
 import com.capps.citronix.service.HarvestDetailsService;
-import com.capps.citronix.service.dto.harvestdetails.HarvestDetailsDTO;
-import com.capps.citronix.web.errors.field.FieldNotFoundException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.HarvestDetailsNotFoundException;
 import com.capps.citronix.web.errors.harvestdetails.TreeAlreadyAssociatedException;
 import com.capps.citronix.web.errors.tree.TreeNotFoundException;
-import com.capps.citronix.web.vm.mapper.HarvestDetailsMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +24,6 @@ public class HarvestDetailsServiceImpl implements HarvestDetailsService {
     private final HarvestDetailsRepository repository;
     private final HarvestRepository harvestRepository;
     private final TreeRepository treeRepository;
-    private final HarvestDetailsMapper mapper;
 
     @Override
     public Page<HarvestDetails> findAll(Pageable pageable) {
@@ -41,19 +37,16 @@ public class HarvestDetailsServiceImpl implements HarvestDetailsService {
     }
 
     @Override
-    public HarvestDetails save(HarvestDetailsDTO harvestDetailsDTO) {
-        Harvest harvest = harvestRepository.findById(harvestDetailsDTO.getHarvestId())
+    public HarvestDetails save(HarvestDetails harvestDetails) {
+        Harvest harvest = harvestRepository.findById(harvestDetails.getHarvest().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
-        Tree tree = treeRepository.findById(harvestDetailsDTO.getTreeId())
+        Tree tree = treeRepository.findById(harvestDetails.getTree().getId())
                 .orElseThrow(() -> new TreeNotFoundException("Tree not Found !"));
 
-        // Vérifier si l'arbre est déjà associé à une autre récolte pour la même saison
         boolean exists = repository.existsByTreeAndHarvest_Saison(tree, harvest.getSaison());
         if (exists) {
             throw new TreeAlreadyAssociatedException("L'arbre est déjà associé à une autre récolte pour la saison " + harvest.getSaison());
         }
-
-        HarvestDetails harvestDetails = mapper.toEntity(harvestDetailsDTO);
 
         harvestDetails.setHarvest(harvest);
         harvestDetails.setTree(tree);
@@ -61,14 +54,14 @@ public class HarvestDetailsServiceImpl implements HarvestDetailsService {
     }
 
     @Override
-    public HarvestDetails update(HarvestDetailsDTO harvestDetailsDTO, UUID id) {
+    public HarvestDetails update(HarvestDetails harvestDetails, UUID id) {
         HarvestDetails existing = repository.findById(id)
                 .orElseThrow(() -> new HarvestDetailsNotFoundException("HarvestDetails not found!"));
-        Harvest harvest = harvestRepository.findById(harvestDetailsDTO.getHarvestId())
+        Harvest harvest = harvestRepository.findById(harvestDetails.getHarvest().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
-        Tree tree = treeRepository.findById(harvestDetailsDTO.getTreeId())
+        Tree tree = treeRepository.findById(harvestDetails.getTree().getId())
                 .orElseThrow(() -> new TreeNotFoundException("Tree not Found !"));
-        existing.setQuantity(harvestDetailsDTO.getQuantity());
+        existing.setQuantity(harvestDetails.getQuantity());
         existing.setHarvest(harvest);
         existing.setTree(tree);
 

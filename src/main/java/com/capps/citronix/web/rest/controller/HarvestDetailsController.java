@@ -2,9 +2,9 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.HarvestDetails;
 import com.capps.citronix.service.HarvestDetailsService;
-import com.capps.citronix.service.dto.harvestdetails.HarvestDetailsDTO;
 import com.capps.citronix.web.vm.harvestdetails.HarvestDetailsVM;
 import com.capps.citronix.web.vm.mapper.HarvestDetailsMapper;
+import com.capps.citronix.web.vm.request.HarvestDetailsRequestVM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,14 +40,14 @@ public class HarvestDetailsController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<HarvestDetailsVM> save(@RequestBody HarvestDetailsDTO dto) {
-        HarvestDetails details = service.save(dto);
+    public ResponseEntity<HarvestDetailsVM> save(@RequestBody HarvestDetailsRequestVM harvestDetailsRequestVM) {
+        HarvestDetails details = service.save(mapper.toEntity(harvestDetailsRequestVM));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toVM(details));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HarvestDetailsVM> update(@PathVariable UUID id, @RequestBody HarvestDetailsDTO dto) {
-        HarvestDetails updated = service.update(dto, id);
+    public ResponseEntity<HarvestDetailsVM> update(@PathVariable UUID id, @RequestBody HarvestDetailsRequestVM harvestDetailsRequestVM) {
+        HarvestDetails updated = service.update(mapper.toEntity(harvestDetailsRequestVM), id);
         return ResponseEntity.ok(mapper.toVM(updated));
     }
 

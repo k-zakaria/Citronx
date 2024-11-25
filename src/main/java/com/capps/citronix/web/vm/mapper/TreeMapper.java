@@ -1,7 +1,7 @@
 package com.capps.citronix.web.vm.mapper;
 
 import com.capps.citronix.domain.Tree;
-import com.capps.citronix.service.dto.tree.TreeDTO;
+import com.capps.citronix.web.vm.request.TreeRequestVM;
 import com.capps.citronix.web.vm.tree.TreeVM;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,5 +12,5 @@ public interface TreeMapper {
     TreeVM toVM(Tree tree);
 
     @Mapping(source = "fieldId", target = "field.id")
-    Tree toEntity(TreeDTO treeDTO);
+    Tree toEntity(TreeRequestVM treeRequestVM);
 }

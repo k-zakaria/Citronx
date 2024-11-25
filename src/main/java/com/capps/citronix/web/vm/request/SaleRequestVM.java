@@ -1,4 +1,4 @@
-package com.capps.citronix.service.dto.sale;
+package com.capps.citronix.web.vm.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
-public class SaleDTO {
+public class SaleRequestVM {
     @NotNull(message = "La date de la vente est obligatoire.")
     private LocalDate date;
 

@@ -5,15 +5,15 @@ import com.capps.citronix.domain.Sale;
 import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.repository.SaleRepository;
 import com.capps.citronix.service.SaleService;
-import com.capps.citronix.service.dto.sale.SaleDTO;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import com.capps.citronix.web.errors.sale.SaleNotFoundException;
-import com.capps.citronix.web.vm.mapper.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class SaleServiceImpl implements SaleService {
     private final SaleRepository repository;
     private final HarvestRepository harvestRepository;
-    private final SaleMapper mapper;
+
 
     @Override
     public Page<Sale> findAll(Pageable pageable) {
@@ -35,25 +35,36 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public Sale save(SaleDTO saleDTO) {
-        Harvest harvest = harvestRepository.findById(saleDTO.getHarvestId())
+    public Sale save(Sale sale) {
+
+        Harvest harvest = harvestRepository.findById(sale.getHarvest().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
-        Sale sale = mapper.toEntity(saleDTO);
+
+        BigDecimal revenue = sale.getUnitPrice()
+                .multiply(BigDecimal.valueOf(harvest.getTotalQuantity()));
+
+        sale.setQuantity(revenue);
+        sale.setDate(LocalDate.now());
         sale.setHarvest(harvest);
+
         return repository.save(sale);
     }
 
+
     @Override
-    public Sale update(SaleDTO saleDTO, UUID id) {
+    public Sale update(Sale sale, UUID id) {
         Sale existing = repository.findById(id)
                 .orElseThrow(() -> new SaleNotFoundException("Sale not found!"));
-        Harvest harvest = harvestRepository.findById(saleDTO.getHarvestId())
+        Harvest harvest = harvestRepository.findById(sale.getHarvest().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Harvest not found!"));
+        BigDecimal revenue = sale.getUnitPrice()
+                .multiply(BigDecimal.valueOf(harvest.getTotalQuantity()));
 
-        existing.setDate(saleDTO.getDate());
-        existing.setUnitPrice(saleDTO.getUnitPrice());
-        existing.setQuantity(saleDTO.getQuantity());
-        existing.setClientName(saleDTO.getClientName());
+
+        existing.setDate(sale.getDate());
+        existing.setUnitPrice(sale.getUnitPrice());
+        existing.setQuantity(revenue);
+        existing.setClientName(sale.getClientName());
         existing.setHarvest(harvest);
 
         return repository.save(existing);

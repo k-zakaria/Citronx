@@ -2,8 +2,8 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Sale;
 import com.capps.citronix.service.SaleService;
-import com.capps.citronix.service.dto.sale.SaleDTO;
 import com.capps.citronix.web.vm.mapper.SaleMapper;
+import com.capps.citronix.web.vm.request.SaleRequestVM;
 import com.capps.citronix.web.vm.sale.SaleVM;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,14 +40,14 @@ public class SaleController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<SaleVM> save(@RequestBody SaleDTO dto) {
-        Sale sale = service.save(dto);
+    public ResponseEntity<SaleVM> save(@RequestBody SaleRequestVM saleRequestVM) {
+        Sale sale = service.save(mapper.toEntity(saleRequestVM));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toVM(sale));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<SaleVM> update(@PathVariable UUID id, @RequestBody SaleDTO dto) {
-        Sale updated = service.update(dto, id);
+    public ResponseEntity<SaleVM> update(@PathVariable UUID id, @RequestBody SaleRequestVM saleRequestVM) {
+        Sale updated = service.update(mapper.toEntity(saleRequestVM), id);
         return ResponseEntity.ok(mapper.toVM(updated));
     }
 

@@ -5,7 +5,6 @@ import com.capps.citronix.domain.Harvest;
 import com.capps.citronix.repository.FieldRepository;
 import com.capps.citronix.repository.HarvestRepository;
 import com.capps.citronix.service.HarvestService;
-import com.capps.citronix.service.dto.harvest.HarvestDTO;
 import com.capps.citronix.web.errors.harvest.HarvestAlreadyExistsException;
 import com.capps.citronix.web.errors.harvest.HarvestNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -33,33 +32,29 @@ public class HarvestServiceImpl implements HarvestService {
     }
 
     @Override
-    public Harvest save(HarvestDTO harvestDTO) {
-        Field field = fieldRepository.findById(harvestDTO.getFieldId())
+    public Harvest save(Harvest harvest) {
+        Field field = fieldRepository.findById(harvest.getField().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Champ introuvable !"));
-        boolean exists = harvestRepository.existsByFieldAndSaison(field, harvestDTO.getSaison());
+
+        boolean exists = harvestRepository.existsByFieldAndSaison(field, harvest.getSaison());
         if (exists) {
-            throw new HarvestAlreadyExistsException("Une récolte pour ce champ existe déjà pour la saison " + harvestDTO.getSaison());
+            throw new HarvestAlreadyExistsException("Une récolte pour ce champ existe déjà pour la saison " + harvest.getSaison());
         }
 
-        Harvest harvest = Harvest.builder()
-                .date(harvestDTO.getDate())
-                .totalQuantity(harvestDTO.getTotalQuantity())
-                .saison(harvestDTO.getSaison())
-                .field(field)
-                .build();
+        harvest.setField(field);
         return harvestRepository.save(harvest);
     }
 
     @Override
-    public Harvest update(UUID id, HarvestDTO harvestDTO) {
+    public Harvest update(UUID id, Harvest harvest) {
         Harvest existingHarvest = harvestRepository.findById(id)
                 .orElseThrow(() -> new HarvestNotFoundException("Récolte introuvable !"));
-        Field field = fieldRepository.findById(harvestDTO.getFieldId())
+        Field field = fieldRepository.findById(harvest.getField().getId())
                 .orElseThrow(() -> new HarvestNotFoundException("Champ introuvable !"));
 
-        existingHarvest.setDate(harvestDTO.getDate());
-        existingHarvest.setTotalQuantity(harvestDTO.getTotalQuantity());
-        existingHarvest.setSaison(harvestDTO.getSaison());
+        existingHarvest.setDate(harvest.getDate());
+        existingHarvest.setTotalQuantity(harvest.getTotalQuantity());
+        existingHarvest.setSaison(harvest.getSaison());
         existingHarvest.setField(field);
 
         return harvestRepository.save(existingHarvest);
@@ -67,9 +62,8 @@ public class HarvestServiceImpl implements HarvestService {
 
     @Override
     public void delete(UUID id) {
-        if (!harvestRepository.existsById(id)) {
-            throw new HarvestNotFoundException("Récolte introuvable !");
-        }
-        harvestRepository.deleteById(id);
+        Harvest existing = harvestRepository.findById(id)
+                        .orElseThrow(() -> new HarvestNotFoundException("Haverst not found!"));
+        harvestRepository.delete(existing);
     }
 }

@@ -2,10 +2,10 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Field;
 import com.capps.citronix.service.FieldService;
-import com.capps.citronix.service.dto.field.FieldDTO;
 import com.capps.citronix.web.response.ResponseHandler;
 import com.capps.citronix.web.vm.field.FieldVM;
 import com.capps.citronix.web.vm.mapper.FieldMapper;
+import com.capps.citronix.web.vm.request.FieldRequestVM;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.UUID;
 
 @RestController
@@ -43,15 +44,15 @@ public class FieldController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<FieldVM> save(@RequestBody @Valid FieldDTO fieldDTO) {
-        Field field = fieldService.save(fieldDTO);
+    public ResponseEntity<FieldVM> save(@RequestBody @Valid FieldRequestVM fieldRequestVM) {
+        Field field = fieldService.save(fieldMapper.toFieldEntity(fieldRequestVM));
         FieldVM fieldVM = fieldMapper.toVM(field);
         return ResponseEntity.status(HttpStatus.CREATED).body(fieldVM);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<FieldVM> update(@PathVariable UUID id, @RequestBody @Valid FieldDTO fieldDTO) {
-        Field field = fieldService.update(fieldDTO, id);
+    public ResponseEntity<FieldVM> update(@PathVariable UUID id, @RequestBody @Valid FieldRequestVM fieldRequestVM) {
+        Field field = fieldService.update(fieldMapper.toFieldEntity(fieldRequestVM), id);
         FieldVM fieldVM = fieldMapper.toVM(field);
         return ResponseEntity.ok(fieldVM);
     }

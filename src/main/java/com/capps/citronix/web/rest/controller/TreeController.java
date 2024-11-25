@@ -2,9 +2,10 @@ package com.capps.citronix.web.rest.controller;
 
 import com.capps.citronix.domain.Tree;
 import com.capps.citronix.service.TreeService;
-import com.capps.citronix.service.dto.tree.TreeDTO;
 import com.capps.citronix.web.vm.mapper.TreeMapper;
+import com.capps.citronix.web.vm.request.TreeRequestVM;
 import com.capps.citronix.web.vm.tree.TreeVM;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,14 +41,14 @@ public class TreeController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<TreeVM> save(@RequestBody TreeDTO dto) {
-        Tree tree = service.save(dto);
+    public ResponseEntity<TreeVM> save(@RequestBody @Valid TreeRequestVM treeRequestVM) {
+        Tree tree = service.save(mapper.toEntity(treeRequestVM));
         return ResponseEntity.status(HttpStatus.CREATED).body(mapper.toVM(tree));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<TreeVM> update(@PathVariable UUID id, @RequestBody TreeDTO dto) {
-        Tree updated = service.update(dto, id);
+    public ResponseEntity<TreeVM> update(@PathVariable UUID id, @RequestBody @Valid TreeRequestVM treeRequestVM) {
+        Tree updated = service.update(mapper.toEntity(treeRequestVM), id);
         return ResponseEntity.ok(mapper.toVM(updated));
     }
 

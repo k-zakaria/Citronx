@@ -1,7 +1,6 @@
 package com.capps.citronix.service;
 
 import com.capps.citronix.domain.HarvestDetails;
-import com.capps.citronix.service.dto.harvestdetails.HarvestDetailsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,9 +11,9 @@ public interface HarvestDetailsService {
 
     HarvestDetails findById(UUID id);
 
-    HarvestDetails save(HarvestDetailsDTO harvestDetailsDTO);
+    HarvestDetails save(HarvestDetails harvestDetails);
 
-    HarvestDetails update(HarvestDetailsDTO harvestDetailsDTO, UUID id);
+    HarvestDetails update(HarvestDetails harvestDetails, UUID id);
 
     boolean delete(UUID id);
 }

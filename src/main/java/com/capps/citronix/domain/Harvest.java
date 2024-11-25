@@ -12,7 +12,6 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Harvest {
@@ -36,5 +35,7 @@ public class Harvest {
 
     @OneToMany(mappedBy = "harvest", cascade = CascadeType.ALL)
     private List<HarvestDetails> harvestDetails = new ArrayList<>();
+
+
 
 }

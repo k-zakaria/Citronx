@@ -1,15 +1,18 @@
-package com.capps.citronix.service.dto.harvest;
+package com.capps.citronix.web.vm.request;
 
 import com.capps.citronix.domain.enums.Saison;
-import jakarta.validation.constraints.*;
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
 @Setter
-public class HarvestDTO {
-
+public class HarvestRequestVM {
     @NotNull(message = "La date est obligatoire.")
     @PastOrPresent(message = "La date doit être passée ou actuelle.")
     private LocalDate date;
