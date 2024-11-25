@@ -39,6 +39,10 @@ public class FieldServiceImpl implements FieldService {
         Farm farm = farmRepository.findById(field.getFarm().getId())
                 .orElseThrow(() -> new FarmNotFoundException("Farm not found!"));
 
+        if (field.getArea() < 1000) {
+            throw new AreaConsistencyException("La superficie du champ doit être d'au moins 1 000 m² (0.1 hectare).");
+        }
+
         float totalFieldArea = fieldRepository.sumAreaByFarm(farm.getId());
 
         if (totalFieldArea + field.getArea() >= farm.getArea()) {
@@ -70,6 +74,10 @@ public class FieldServiceImpl implements FieldService {
                 .orElseThrow(() -> new FieldNotFoundException("Field not found!"));
         Farm farm = farmRepository.findById(field.getFarm().getId())
                 .orElseThrow(() -> new FarmNotFoundException("Farm not found!"));
+
+        if (field.getArea() < 1000) {
+            throw new AreaConsistencyException("La superficie du champ doit être d'au moins 1 000 m² (0.1 hectare).");
+        }
 
         float maxFieldArea = farm.getArea() * 0.5f;
         if (field.getArea() > maxFieldArea) {
