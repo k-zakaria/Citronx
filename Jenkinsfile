@@ -1,6 +1,8 @@
 pipeline{
     agent any
+
     stages {
+
         stage('Build and SonarQube Analysis') {
             steps {
                 echo "Running Maven build and SonarQube analysis..."
@@ -11,6 +13,7 @@ pipeline{
                 }
             }
         }
+
         stage('Quality Gate Check') {
             steps {
                 script {
@@ -28,6 +31,7 @@ pipeline{
                 }
             }
         }
+
         stage('Pre Deploy') {
             steps {
                 script {
@@ -39,6 +43,7 @@ pipeline{
                 }
             }
         }
+
         stage('Deploy'){
             steps{
                 script {
@@ -50,6 +55,7 @@ pipeline{
             }
         }
     }
+
     post {
         success {
             mail to: 'kacimizakaria315@gmail.com',
