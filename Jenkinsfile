@@ -8,7 +8,6 @@ pipeline{
                 withSonarQubeEnv('MySonarQubeServer') {
                     sh """
                     mvn clean package sonar:sonar
-
                     """
                 }
             }
