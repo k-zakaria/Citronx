@@ -1,7 +1,6 @@
 pipeline{
     agent any
     stages {
-
         stage('Build and SonarQube Analysis') {
             steps {
                 echo "Running Maven build and SonarQube analysis..."
@@ -51,7 +50,6 @@ pipeline{
             }
         }
     }
-
     post {
         success {
             mail to: 'kacimizakaria315@gmail.com',
